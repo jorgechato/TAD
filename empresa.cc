@@ -35,39 +35,32 @@ bool introducir (empresa &e, const instante &i,const float v){
         return false;
     }
 }
-void maximoValor(const empresa &e, float& v, bool &error){
+void instanteMaximoMayorValor(const empresa &e, instante& i, float& v){
     if(sesionAbierta(e)){
-        bool error1;
-        float aux;
-        maximoValor(e.h,aux,error1);
-        if(error1){
-            error=true;
+        if(tamanyoHistorico(e)==0){
+            i=instanteCotizacionCierre(e);
+            v=valorCotizacionCierre(e);
         }
         else{
-            error=false;
-            v=aux;
+            bool error1;
+            float aux;
+            maximoValor(e.h,aux,error1);
+            float maxCierre=valorCotizacionCierre(e);
+            instante aux1;
+            ordenDeMayorValor(e.h,aux1,error1);
+            instante maxInstante=instanteCotizacionCierre(e);
+            if(aux>maxCierre){
+                v=aux;
+                i=aux1;
+            }
+            else{
+                v=maxCierre;
+                i=maxInstante;
+            }
         }
     }
     else{
-        error=false;
         v=valorCotizacionCierre(e);
-    }
-}
-void instanteDeMayorValor (const empresa &e, instante& i, bool& error){
-    if(sesionAbierta(e)){
-        bool error1;
-        instante aux;
-        ordenDeMayorValor(e.h,aux,error1);
-        if(error1){
-            error=true;;
-        }
-        else{
-            error=false;
-            i=aux;
-        }
-    }
-    else{
-        error=false;
         i=instanteCotizacionCierre(e);
     }
 }

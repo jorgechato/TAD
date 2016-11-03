@@ -34,17 +34,13 @@ bool introducir (empresa &e, const instante &i,const float v);
  * e el cambio de cotización dado por el par (i,v) y devuelve true. En caso contrario, devuelve una 
  * empresa igual a e y false.
  */
-void maximoValor(const empresa &e, float& v, bool &error);
-/* Si e tiene una sesión abierta, devuelve el valor v del cambio de cotización, o par, registrado
- * en e tal que v es el máximo de todos los valores en los cambios de cotización registrados en e y
- * en caso de que el historico sea vacio asigna error=true.
- * Si e no tiene una sesión abierta, devuelve valorCotizaciónCierre(e). 
- */
-void instanteDeMayorValor(const empresa &e, instante& i, bool& error);
-/* Si e tiene una sesión abierta, devuelve el instante i del cambio de cotización, o par,
- * registrado en e tal que (i,máximoValor(e))ϵ e y en caso de que el historico sea vacio asigna
- * error=true. Si e no tiene una sesión abierta, devuelve instanteCotizaciónCierre(e)
- */
+void instanteMaximoMayorValor(const empresa &e, instante& i, float& v);
+/* Si e tiene una sesión abierta, devuelve en v el valor v1 del cambio de cotización, o par, 
+ * registrado en e tal que v1 es el máximo entre todos los valores en los cambios de 
+ * cotización registrados en e y valorCotizaciónCierre(e) y devuelve en i su instante.
+ * Si e no tiene una sesión abierta, o si tamañoHistórico(e)=0, devuelve en v valorCotizaciónCierre(e) y
+ * en i instanteCotizacionCierre(e).
+ */ 
 instante ultimoInstante (const empresa &e);
 /* Si tamañoHistórico(e)>0, devuelve el instante i del último cambio de cotización, o par (i,v),
  * registrado en e. En caso contrario, devuelve instanteCotizaciónCierre(e).
@@ -93,8 +89,7 @@ struct empresa{
     friend float valorCotizacionCierre(const empresa &e);
     friend bool sesionAbierta(const empresa &e);
     friend bool introducir (empresa &e, const instante &i,const float v);
-    friend void maximoValor(const empresa &e, float& v, bool &error);
-    friend void instanteDeMayorValor (const empresa &e, instante& i, bool& error);
+    friend void instanteMaximoMayorValor(const empresa &e, instante& i, float& v);
     friend instante ultimoInstante (const empresa &e);
     friend float ultimoValor(const empresa &e);
     friend int tamanyoHistorico(const empresa &e);
