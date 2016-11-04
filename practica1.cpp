@@ -195,7 +195,9 @@ void cerrarSesion(empresa &e, ofstream &salida){
 }
 
 /*
- *
+ * Escribe en el fichero salida el tamaño todal del historico de una empresa y
+ * escribe cada uno de los datos contenidos en el. Toma parametros por
+ * referencia: empresa y fichero de escritura (salida).
  */
 void totalHistorico(empresa &e, ofstream &salida){
   string datos, historico;
