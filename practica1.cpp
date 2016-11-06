@@ -3,7 +3,7 @@
  *
  *       Filename:  practica1.cpp
  *
- *    Description:  g++ -std=c++11 -pthread practica1.cpp empresa.cc instante.cc -o main
+ *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc -o main
  *
  *        Version:  1.0
  *        Created:  11/03/2016 04:11:30 PM
@@ -54,6 +54,7 @@ int main(){
     menu(content, e, file, salida);
   }
 
+  file.close();
   salida.close();
   return 0;
 }
@@ -61,7 +62,7 @@ int main(){
 /*
  * Controla todos los casos de lectura del fichero, “ih”, “ue”, “me”, “ae”,
  * “ce”, “le” enviando a cada uno de ellos al metodo de accion correspondiente.
- * Toma como valores por referencia crestantes ontent (linea del fichero leido),
+ * Toma como valores por referencia content (linea del fichero leido),
  * empresa, fichero de entrada y fichero de salida.
  */
 void menu(string content, empresa &e, ifstream &file, ofstream &salida){
@@ -110,17 +111,17 @@ void introducirHistorico(empresa &e, ifstream &file, ofstream &salida){
   generaInstanteCadena(inst, instante);
 
   if(introducido){
-    salida << "INSERCION: " << instante << ";" << identificador(e) << "\n";
+    salida << "INSERCION: " << instante << ";" << to_string(ultimoValor(e)) << "\n";
   }else{
-    salida << "INSERCION DESECHADA: " << instante << ";" << identificador(e) << "\n";
+    salida << "INSERCION DESECHADA: " << instante << ";" << to_string(atof(accion.c_str())) << "\n";
   }
 }
 
 /*
  * Lee las siguientes tres lineas del fichero tras ejecutar introducirHistorico()
  * necesarias para la creación de un instante.
- * Limpia los datos que recives tras la ejecucion de introducirHistorico(), formatea
- * el string de la hora 00:00:00 a tres int de la mima manera con la fecha 0000/00/00.
+ * Limpia los datos que recive tras la ejecucion de introducirHistorico(), formatea
+ * el string de la hora 00:00:00 a tres int, de la mima manera con la fecha 0000/00/00.
  * Sus parametros por referencia son: fichero de lectura, string hora, fecha y accion
  * completas, ph (primer :), sh (ultimo :), pf (primer /), sf (ultimo /).
  */
