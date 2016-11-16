@@ -3,7 +3,7 @@
  *
  *       Filename:  empresa.h
  *
- *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc -o main
+ *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc calculos.cc -o main
  *
  *        Version:  1.0
  *        Created:  11/03/2016 04:11:30 PM
@@ -18,8 +18,9 @@
 
 #ifndef EMPRESA_H
 #define EMPRESA_H
-#include "historico.h"
 #include "instante.h"
+#include "calculos.h"
+#include "historico.h"
 struct empresa;
 /* Los valores del TAD representan empresas caracterizadas por la siguiente información: un identificador,
  * el instante y valor de la acción de la empresa al cierre de su última sesión de cotización finalizada
@@ -30,7 +31,7 @@ struct empresa;
  * instantes de todos los demás pares o cambios de cotización ya registrados, y es mayor o igual que el instante 
  * del valor de la acción al cierre de su última sesión de cotización finalizada en bolsa.
  */
-void crear (const string id,const instante &i,const float v,empresa &e);
+void crear (const string id,const instante &i,const double v,empresa &e);
 /* Crea una empresa con identificador id, con i como instante de su última cotización al cierre,
  * v como valor de la acción al cierre, y sin sesión de cotización en bolsa abierta.
  */
@@ -39,7 +40,7 @@ string identificador(const empresa &e);
 instante instanteCotizacionCierre (const empresa &e);
 /* Devuelve el instante de la cotización de la acción de la empresa e al cierre de su última
  * sesión finalizada en bolsa.*/
-float valorCotizacionCierre(const empresa &e);
+double valorCotizacionCierre(const empresa &e);
 /* Devuelve el valor de cotización de la acción de la empresa e al cierre de su última sesión
  * finalizada en bolsa.}
  */
@@ -47,12 +48,12 @@ bool sesionAbierta(const empresa &e);
 /* Devuelve verdad si y solo si la empresa e tiene actualmente abierta una sesión de cotización en
  * bolsa.
  */
-bool introducir (empresa &e, const instante &i,const float v);
+bool introducir (empresa &e, const instante &i,const double v);
 /* Si sesiónAbierta(e) y además i>=últimoInstante(e), devuelve la empresa resultante de añadir en
  * e el cambio de cotización dado por el par (i,v) y devuelve true. En caso contrario, devuelve una 
  * empresa igual a e y false.
  */
-void instanteMaximoMayorValor(const empresa &e, instante& i, float& v);
+void instanteMaximoMayorValor(const empresa &e, instante& i, double& v);
 /* Si e tiene una sesión abierta, devuelve en v el valor v1 del cambio de cotización, o par, 
  * registrado en e tal que v1 es el máximo entre todos los valores en los cambios de 
  * cotización registrados en e y valorCotizaciónCierre(e) y devuelve en i su instante.
@@ -63,7 +64,7 @@ instante ultimoInstante (const empresa &e);
 /* Si tamañoHistórico(e)>0, devuelve el instante i del último cambio de cotización, o par (i,v),
  * registrado en e. En caso contrario, devuelve instanteCotizaciónCierre(e).
  */
-float ultimoValor(const empresa &e);
+double ultimoValor(const empresa &e);
 /* Si tamañoHistórico(e)>0, devuelve el valor v del último cambio de cotización, o par (i,v) 
  * registrado en e. En caso contrario, devuelve valorCotizaciónCierre(e).
  */
@@ -101,15 +102,15 @@ void listarDatosBaseEmpresa (const empresa &e, string &c);
  */
 
 struct empresa{
-    friend void crear (const string id,const instante &i,const float v,empresa &e);
+    friend void crear (const string id,const instante &i,const double v,empresa &e);
     friend string identificador(const empresa &e);
     friend instante instanteCotizacionCierre (const empresa &e);
-    friend float valorCotizacionCierre(const empresa &e);
+    friend double valorCotizacionCierre(const empresa &e);
     friend bool sesionAbierta(const empresa &e);
-    friend bool introducir (empresa &e, const instante &i,const float v);
-    friend void instanteMaximoMayorValor(const empresa &e, instante& i, float& v);
+    friend bool introducir (empresa &e, const instante &i,const double v);
+    friend void instanteMaximoMayorValor(const empresa &e, instante& i, double& v);
     friend instante ultimoInstante (const empresa &e);
-    friend float ultimoValor(const empresa &e);
+    friend double ultimoValor(const empresa &e);
     friend int tamanyoHistorico(const empresa &e);
     friend bool esVacioHistorico (const empresa &e);
     friend void abrirSesion (empresa &e,bool &error);
@@ -120,8 +121,8 @@ struct empresa{
 private:
     string id;
     instante i;
-    float valor;
+    double valor;
     bool abierta;
-    historico<instante,float> h;
+    historico<instante,double> h;
 };
 #endif

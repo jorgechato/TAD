@@ -3,7 +3,7 @@
  *
  *       Filename:  empresa.cc
  *
- *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc -o main
+ *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc calculos.cc -o main
  *
  *        Version:  1.0
  *        Created:  11/03/2016 04:11:30 PM
@@ -21,7 +21,7 @@
 #include <string>
 using namespace std;
 
-void crear (const string id,const instante &i,const float v,empresa &e){
+void crear (const string id,const instante &i,const double v,empresa &e){
     e.id=id;
     e.i=i;
     e.valor=v;
@@ -34,16 +34,16 @@ string identificador(const empresa &e){
 instante instanteCotizacionCierre (const empresa &e){
     return e.i;
 }
-float valorCotizacionCierre(const empresa &e){
+double valorCotizacionCierre(const empresa &e){
     return e.valor;
 }
 bool sesionAbierta(const empresa &e){
     return e.abierta;
 }
-bool introducir (empresa &e, const instante &i,const float v){
-    if(sesionAbierta(e) && mayorInstante(i,ultimoInstante(e))){
+bool introducir (empresa &e, const instante &i,const double v){
+    if(sesionAbierta(e) && (i>=ultimoInstante(e))){
         if(introducir(e.h,i,v)){
-            return true;;           
+            return true;           
         }
         else{
             return false;
@@ -53,7 +53,7 @@ bool introducir (empresa &e, const instante &i,const float v){
         return false;
     }
 }
-void instanteMaximoMayorValor(const empresa &e, instante& i, float& v){
+void instanteMaximoMayorValor(const empresa &e, instante& i, double& v){
     if(sesionAbierta(e)){
         if(tamanyoHistorico(e)==0){
             i=instanteCotizacionCierre(e);
@@ -61,11 +61,10 @@ void instanteMaximoMayorValor(const empresa &e, instante& i, float& v){
         }
         else{
             bool error1;
-            float aux;
-            maximoValor(e.h,aux,error1);
-            float maxCierre=valorCotizacionCierre(e);
+            double aux;
+            double maxCierre=valorCotizacionCierre(e);
             instante aux1;
-            ordenDeMayorValor(e.h,aux1,error1);
+            mayorValorYOrden(e.h,aux1,aux,error1);
             instante maxInstante=instanteCotizacionCierre(e);
             if(aux>maxCierre){
                 v=aux;
@@ -93,10 +92,10 @@ instante ultimoInstante (const empresa &e){
         return instanteCotizacionCierre(e);
     }
 }
-float ultimoValor(const empresa &e){
+double ultimoValor(const empresa &e){
     if(tamanyoHistorico(e)>0){
         bool error;
-        float aux;
+        double aux;
         valorDeUltimo(e.h,aux,error);
         return aux;  
     }
@@ -139,7 +138,7 @@ void listarHistorico (empresa &e, string &c){
 }
 void listarDatosBaseEmpresa (const empresa &e, string &c){
     string ins;
-    generaInstanteCadena(e.i,ins);
+    generaCadena(e.i,ins);
     string val=to_string(e.valor);
     string abierta;
     if(sesionAbierta(e)){

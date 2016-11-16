@@ -3,7 +3,7 @@
  *
  *       Filename:  instante.cc
  *
- *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc -o main
+ *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc calculos.cc -o main
  *
  *        Version:  1.0
  *        Created:  11/03/2016 04:11:30 PM
@@ -19,7 +19,26 @@
 #include "instante.h"
 #include <sstream>
 
-bool mayorInstante (const instante &p1,const instante &p2){ 
+int anyo(const instante& p){
+    return p.anyo;
+}
+int mes(const instante& p){
+    return p.mes;
+}
+int dia(const instante& p){
+    return p.dia;
+}
+int hora(const instante& p){
+    return p.hora;
+}
+int min(const instante& p){
+    return p.min;
+}
+int seg(const instante& p){
+    return p.seg;
+}
+
+bool operator>= (const instante &p1,const instante &p2){ 
     if(p1.anyo>p2.anyo){
         return true;
     }
@@ -68,9 +87,9 @@ bool mayorInstante (const instante &p1,const instante &p2){
     }
 }
 
-void generaInstanteCadena(const instante& p, string &s){
+void generaCadena(const instante& p, string &s){
     stringstream convert;
-    convert << p.hora<<':'<<p.min<<':'<<p.seg<<';'<<p.anyo<<'/'<<p.mes<<'/'<<p.dia;
+    convert << hora(p)<<':'<<min(p)<<':'<<seg(p)<<';'<<anyo(p)<<'/'<<mes(p)<<'/'<<dia(p);
     s=convert.str();
 }
 void crearInstante(instante &p, int anyo,int mes,int dia,int hora,int min, int seg){

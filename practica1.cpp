@@ -3,7 +3,7 @@
  *
  *       Filename:  practica1.cpp
  *
- *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc -o main
+ *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc calculos.cc -o main
  *
  *        Version:  1.0
  *        Created:  11/03/2016 04:11:30 PM
@@ -28,6 +28,7 @@
 
 
 using namespace std;
+
 void limpiarDatos(ifstream &file, string &hora, string &fecha, string &accion, int &ph, int &sh, int &pf, int &sf);
 void menu(string content, empresa &e, ifstream &file, ofstream &salida);
 void introducirHistorico(empresa &e, ifstream &file, ofstream &salida);
@@ -108,7 +109,7 @@ void introducirHistorico(empresa &e, ifstream &file, ofstream &salida){
 
   bool introducido = introducir(e, inst, atof(accion.c_str()));
   string instante;
-  generaInstanteCadena(inst, instante);
+  generaCadena(inst, instante);
 
   if(introducido){
     salida << "INSERCION: " << instante << ";" << to_string(ultimoValor(e)) << "\n";
@@ -120,7 +121,7 @@ void introducirHistorico(empresa &e, ifstream &file, ofstream &salida){
 /*
  * Lee las siguientes tres lineas del fichero tras ejecutar introducirHistorico()
  * necesarias para la creación de un instante.
- * Limpia los datos que recive tras la ejecucion de introducirHistorico(), formatea
+ * Limpia los datos que recibe tras la ejecucion de introducirHistorico(), formatea
  * el string de la hora 00:00:00 a tres int, de la mima manera con la fecha 0000/00/00.
  * Sus parametros por referencia son: fichero de lectura, string hora, fecha y accion
  * completas, ph (primer :), sh (ultimo :), pf (primer /), sf (ultimo /).
@@ -143,9 +144,9 @@ void limpiarDatos(ifstream &file, string &hora, string &fecha, string &accion, i
  */
 void ultimoValor(empresa &e, ofstream &salida){
   instante iMenor = ultimoInstante(e);
-  float valor = ultimoValor(e);
+  double valor = ultimoValor(e);
   string instante;
-  generaInstanteCadena(iMenor, instante);
+  generaCadena(iMenor, instante);
 
   salida << "ULTIMA: " << instante << ";" << to_string(valor) << "\n";
 }
@@ -157,10 +158,10 @@ void ultimoValor(empresa &e, ofstream &salida){
  */
 void mayorValor(empresa &e, ofstream &salida){
   instante iMayor;
-  float valor;
+  double valor;
   string instante;
   instanteMaximoMayorValor(e, iMayor, valor);
-  generaInstanteCadena(iMayor, instante);
+  generaCadena(iMayor, instante);
 
   salida << "MAYOR: " << instante << ";" << to_string(valor) << "\n";
 }
