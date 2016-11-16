@@ -28,11 +28,11 @@ template <typename orden,typename valor> struct historico;
  * para consultar los datos del par con máximo valor de todos los registrados en el
  * histórico, y operaciones para consultar los datos del último par registrado en el histórico.
  */
-/*Los parametros formales tienen las operaciones:
+/*Los parametros formales tienen definidas las operaciones:
  * generaCadena(orden) que devuelve una cadena de orden 
  * generaCadena(valor) que devuelve una cadena de valor
- * mayorOrden(orden1,orden2) devuelve true si y solo si orden1 es mayor o igual que orden2
- * mayorValor(valor1,valor2) devuelve true si y solo si valor1 es mayor o igual que valor2
+ * orden1>=orden2 devuelve true si y solo si orden1 es mayor o igual que orden2
+ * valor1>=valor2 devuelve true si y solo si valor1 es mayor o igual que valor2
  */
  
 template <typename orden,typename valor> void crear(historico<orden,valor> &h);
