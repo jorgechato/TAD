@@ -28,12 +28,57 @@ void crearMercado(string nombre, mercado &m){
   crear(m.d);
 }
 
-void anyadirNuevaEmpresa(mercado &m, string &cod, string &idEmp, instante &i, double v){
+void anyadirNuevaEmpresa(mercado &m, const string &cod, const string &idEmp, instante &i, const double v){
   empresa valor;
 
   if(!obtenerValor(m.d, cod, valor)){
     empresa e;
-    crear(cod,i,v,e);
+    crear(cod, i, v, e);
     anyadir(m.d, cod, e);
   }
 }
+
+bool estaEnMercado(mercado &m, const string &cod, empresa &e){
+  return esVacio(m.d) && obtenerValor(m.d, cod, e) ? true : false;
+}
+
+int empresasEnMercado(mercado &m){
+  return esVacio(m.d) ? 0 : cardinal(m.d);
+}
+
+void borrarEmpresa(mercado &m, const string &cod){
+  if(!esVacio(m.d))
+    quitar(m.d, cod);
+}
+
+void abrirSesionEmpresa(mercado &m, const string &cod, int &error){
+  empresa e;
+  if(estaEnMercado(m, cod, e)){
+    bool err;
+    abrirSesion(e, err);
+    error = err ? 1 : -1;
+  }else
+    error = 0;
+}
+
+void cerrarSessionEmpresa(mercado &m, const string &cod, int &error){
+  empresa e;
+  if(estaEnMercado(m, cod, e)){
+    bool err;
+    cerrarSesion(e, err);
+    error = err ? 1 : -1;
+  }else
+    error = 0;
+}
+
+void anyadirCotizacionEmpresa(mercado &m, const string &cod, instante i, const double v, int error){
+  empresa e;
+  if(estaEnMercado(m, cod, e)){
+    error = introducir(e, i, v) ? 1 : -1;
+  }else
+    error = 0;
+}
+
+//void listarEmpresa(mercado &m, const string &cod, string &lista);
+//void listarVariacionesTodas(mercado &m, string &lista);
+//void listarDetallesTodas(mercado &m, string &lista);
