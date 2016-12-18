@@ -30,18 +30,18 @@ void crearMercado(string nombre, mercado &m){
 
 bool anyadirNuevaEmpresa(mercado &m, const string &cod, const string &idEmp, instante &i, const double v){
   empresa valor;
-  bool error = obtenerValor(m.d, cod, valor);
+  bool encontrado = obtenerValor(m.d, cod, valor);
 
-  if(!error){
+  if(encontrado){
     empresa e;
     crear(cod, i, v, e);
-    error = anyadir(m.d, cod, e);
+    encontrado = anyadir(m.d, cod, e);
   }
-  return error;
+  return encontrado;
 }
 
 bool estaEnMercado(mercado &m, const string &cod, empresa &e){
-  return esVacio(m.d) && obtenerValor(m.d, cod, e) ? true : false;
+  return !esVacio(m.d) && obtenerValor(m.d, cod, e) ? true : false;
 }
 
 int empresasEnMercado(mercado &m){
@@ -49,10 +49,10 @@ int empresasEnMercado(mercado &m){
 }
 
 bool borrarEmpresa(mercado &m, const string &cod){
-  bool error = esVacio(m.d);
-  if(!error)
-    error = quitar(m.d, cod);
-  return error;
+  bool eliminado = false;
+  if(!esVacio(m.d))
+    eliminado = quitar(m.d, cod);
+  return eliminado;
 }
 
 void abrirSesionEmpresa(mercado &m, const string &cod, int &error){
@@ -165,7 +165,7 @@ string pintarDatosEmpresa(empresa &e, const string &cod){
   if(sesionAbierta(e)){
     string historico;
     listarHistorico(e, historico);
-    lista += "TOTAL: " + tamanyoHistorico(e) + '\n' + historico;
+    lista += "TOTAL: " + to_string(tamanyoHistorico(e)) + '\n' + historico;
   }
 
   return lista;
