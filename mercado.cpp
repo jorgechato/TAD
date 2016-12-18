@@ -28,14 +28,16 @@ void crearMercado(string nombre, mercado &m){
   crear(m.d);
 }
 
-void anyadirNuevaEmpresa(mercado &m, const string &cod, const string &idEmp, instante &i, const double v){
+bool anyadirNuevaEmpresa(mercado &m, const string &cod, const string &idEmp, instante &i, const double v){
   empresa valor;
+  bool error = obtenerValor(m.d, cod, valor);
 
-  if(!obtenerValor(m.d, cod, valor)){
+  if(!error){
     empresa e;
     crear(cod, i, v, e);
-    anyadir(m.d, cod, e);
+    error = anyadir(m.d, cod, e);
   }
+  return error;
 }
 
 bool estaEnMercado(mercado &m, const string &cod, empresa &e){
@@ -46,9 +48,11 @@ int empresasEnMercado(mercado &m){
   return esVacio(m.d) ? 0 : cardinal(m.d);
 }
 
-void borrarEmpresa(mercado &m, const string &cod){
-  if(!esVacio(m.d))
-    quitar(m.d, cod);
+bool borrarEmpresa(mercado &m, const string &cod){
+  bool error = esVacio(m.d);
+  if(!error)
+    error = quitar(m.d, cod);
+  return error;
 }
 
 void abrirSesionEmpresa(mercado &m, const string &cod, int &error){
@@ -79,6 +83,90 @@ void anyadirCotizacionEmpresa(mercado &m, const string &cod, instante i, const d
     error = 0;
 }
 
-//void listarEmpresa(mercado &m, const string &cod, string &lista);
-//void listarVariacionesTodas(mercado &m, string &lista);
-//void listarDetallesTodas(mercado &m, string &lista);
+void listarEmpresa(mercado &m, const string &cod, string &lista){
+  empresa e;
+  if(estaEnMercado(m, cod, e)){
+    lista = pintarDatosEmpresa(e, cod);
+  }else{
+    lista = "";
+  }
+}
+
+void listarVariacionesTodas(mercado &m, string &lista){
+  lista = "**********\n" + m.nombre + "\nTOTAL EMPRESAS: " +
+    to_string(empresasEnMercado(m));
+
+  if(!esVacio(m.d)){
+    lista += "\n-----\n";
+    iniciarIterador(m.d);
+
+    while(existeSiguiente(m.d)){
+      string cod;
+      empresa e;
+      bool error;
+      siguiente(m.d, cod, e, error);
+      if(!error){
+        string datosBaseEmpresa;
+        listarDatosBaseEmpresa(e, datosBaseEmpresa);
+
+        lista += cod + "\n" + datosBaseEmpresa + "\n";
+        if(sesionAbierta(e)){
+          lista += "TOTAL CAMBIOS: " + to_string(tamanyoHistorico(e));
+
+          instante i = ultimoInstante(e);
+          string fecha;
+          generaCadena(i, fecha);
+          double ultimovalor = ultimoValor(e);
+          double mayorvalor;
+          instante iMayor;
+          instanteMaximoMayorValor(e, iMayor, mayorvalor);
+          string fechaMayor;
+          generaCadena(iMayor, fechaMayor);
+
+          lista += "\nULTIMA: " + fecha + ";" + to_string(ultimovalor) + "\n" +
+            "VARIACION ULTIMA-CIERRE: " + to_string(ultimovalor) + "-" +
+                to_string(valorCotizacionCierre(e)) + "\n" +
+            "MAYOR: " + fechaMayor + ";" + to_string(mayorvalor) + "\n" +
+            "VARIACION MAYOR-CIERRE: " + to_string(mayorvalor) + "-" +
+                to_string(valorCotizacionCierre(e));
+        }
+        lista += "\n-----\n";
+      }
+    }
+  }
+
+  lista += "**********\n";
+}
+
+void listarDetallesTodas(mercado &m, string &lista){
+  lista = "**********\n" + m.nombre + "\nTOTAL EMPRESAS: " +
+    to_string(empresasEnMercado(m)) + "\n-----\n";
+
+  if(!esVacio(m.d)){
+    iniciarIterador(m.d);
+    while(existeSiguiente(m.d)){
+      string cod;
+      empresa e;
+      bool error;
+      siguiente(m.d, cod, e, error);
+      if(!error)
+        lista += pintarDatosEmpresa(e, cod) + "\n-----\n";
+    }
+  }
+
+  lista += "**********\n";
+}
+
+string pintarDatosEmpresa(empresa &e, const string &cod){
+  string datosBaseEmpresa;
+  listarDatosBaseEmpresa(e, datosBaseEmpresa);
+  string lista = cod + "\n" + datosBaseEmpresa + "\n";
+
+  if(sesionAbierta(e)){
+    string historico;
+    listarHistorico(e, historico);
+    lista += "TOTAL: " + tamanyoHistorico(e) + '\n' + historico;
+  }
+
+  return lista;
+}

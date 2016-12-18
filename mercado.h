@@ -29,7 +29,7 @@ struct mercado;
 
 void crearMercado(const string nombre, mercado &m);
 //Crea un mercado con nombre nom y sin empresas cotizando en él (vacío).
-void anyadirNuevaEmpresa(mercado &m, const string &cod, const string &idEmp, instante &i, const double v);
+bool anyadirNuevaEmpresa(mercado &m, const string &cod, const string &idEmp, instante &i, const double v);
 //Si en el mercado m no hay ningún par con código cod, es decir (cod,e), devolverá un mercado
 //igual al resultante de añadir a m un nuevo par (cod,e), siendo e la empresa resultante de
 //empresa.crear(idEmp,i,v).
@@ -39,7 +39,7 @@ bool estaEnMercado(mercado &m, const string &cod, empresa &e);
 //mismo codigo
 int empresasEnMercado(mercado &m);
 //Devuelve el número total de empresas en el mercado m
-void borrarEmpresa(mercado &m, const string &cod);
+bool borrarEmpresa(mercado &m, const string &cod);
 //Si en el mercado m no hay ningún par (cod,e), devolverá un mercado igual a m. Si en m existe
 //un par (cod,e), devolverá un mercado igual al resultante de eliminar de m el par (cod,e)
 
@@ -126,12 +126,14 @@ void listarDetallesTodas(mercado &m, string &lista);
 //menor a mayor código de identificación de las empresas, y separando la información de cada una
 //de ellas de la que le siga en el listado mediante una línea con la cadena “-----“, y
 //- finalizada con una línea con la cadena “**********”.
+string pintarDatosEmpresa(const empresa &e, const string &cod);
+
 struct mercado{
   friend void crearMercado(string nombre, mercado &m);
-  friend void anyadirNuevaEmpresa(mercado &m, const string &cod, const string &idEmp, instante &i, const double v);
+  friend bool anyadirNuevaEmpresa(mercado &m, const string &cod, const string &idEmp, instante &i, const double v);
   friend bool estaEnMercado(mercado &m, const string &cod, empresa &e);
   friend int empresasEnMercado(mercado &m);
-  friend void borrarEmpresa(mercado &m, const string &cod);
+  friend bool borrarEmpresa(mercado &m, const string &cod);
   friend void abrirSesionEmpresa(mercado &m, const string &cod, int &error);
   friend void cerrarSessionEmpresa(mercado &m, const string &cod, int &error);
   friend void anyadirCotizacionEmpresa(mercado &m, const string &cod, instante i, const double v, int error);
@@ -141,5 +143,7 @@ struct mercado{
   private:
   string nombre;
   diccionario <string,empresa> d;
+
+  string pintarDatosEmpresa(const empresa &e, const string &cod);
 };
 #endif
