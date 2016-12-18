@@ -255,7 +255,7 @@ void anyadirCotizacion(mercado &m, ifstream &file, ofstream &salida){
   else{
     salida << "-INSERCION DESECHADA(ERROR INSERCION): ";
   }
-  salida << codigo<<";"<<";"<<instante<<";"<<to_string(atof(accion.c_str()))<<"\n";
+  salida << codigo<<";"<<instante<<";"<<to_string(atof(accion.c_str()))<<"\n";
 }
 
 /*
@@ -268,10 +268,10 @@ void listarEmpre(mercado &m, string &codigo, ofstream &salida){
   aux=(char *)datos.c_str();
   
   if(strlen(aux)>1){
-      salida << "LISTANDO EMPRESA: \n"<<datos<<"\n";
+      salida << "LISTANDO EMPRESA\n"<<datos;
   }
   else{
-      salida << "-LISTADO DE EMPRESA DESECHADO: "<<codigo<<"\n";
+      salida << "LISTADO DE EMPRESA DESECHADO: "<<codigo<<"\n";
   }
 }
 

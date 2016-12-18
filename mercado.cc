@@ -34,7 +34,7 @@ bool anyadirNuevaEmpresa(mercado &m, const string &cod, const string &idEmp, ins
 
   if(!encontrado){
     empresa e;
-    crear(cod, i, v, e);
+    crear(idEmp, i, v, e);
     encontrado = anyadir(m.d, cod, e);
   }
   return encontrado;
@@ -60,6 +60,8 @@ void abrirSesionEmpresa(mercado &m, const string &cod, int &error){
   if(estaEnMercado(m, cod, e)){
     bool err;
     abrirSesion(e, err);
+    borrarEmpresa(m, cod);
+    anyadir(m.d, cod, e);
     error = err ? 1 : -1;
   }else
     error = 0;
@@ -70,6 +72,8 @@ void cerrarSessionEmpresa(mercado &m, const string &cod, int &error){
   if(estaEnMercado(m, cod, e)){
     bool err;
     cerrarSesion(e, err);
+    borrarEmpresa(m, cod);
+    anyadir(m.d, cod, e);
     error = err ? 1 : -1;
   }else
     error = 0;
@@ -79,6 +83,8 @@ void anyadirCotizacionEmpresa(mercado &m, const string &cod, instante i, const d
   empresa e;
   if(estaEnMercado(m, cod, e)){
     error = introducir(e, i, v) ? 1 : -1;
+    borrarEmpresa(m, cod);
+    anyadir(m.d, cod, e);
   }else
     error = 0;
 }
@@ -109,9 +115,9 @@ void listarVariacionesTodas(mercado &m, string &lista){
         string datosBaseEmpresa;
         listarDatosBaseEmpresa(e, datosBaseEmpresa);
 
-        lista += cod + "\n" + datosBaseEmpresa + "\n";
+        lista += cod + "\n" + datosBaseEmpresa;
         if(sesionAbierta(e)){
-          lista += "TOTAL CAMBIOS: " + to_string(tamanyoHistorico(e));
+          lista += "\nTOTAL CAMBIOS: " + to_string(tamanyoHistorico(e));
 
           instante i = ultimoInstante(e);
           string fecha;
@@ -135,7 +141,7 @@ void listarVariacionesTodas(mercado &m, string &lista){
     }
   }
 
-  lista += "**********\n";
+  lista += "**********";
 }
 
 void listarDetallesTodas(mercado &m, string &lista){
@@ -150,11 +156,11 @@ void listarDetallesTodas(mercado &m, string &lista){
       bool error;
       siguiente(m.d, cod, e, error);
       if(!error)
-        lista += pintarDatosEmpresa(e, cod) + "\n-----\n";
+        lista += pintarDatosEmpresa(e, cod) + "-----\n";
     }
   }
 
-  lista += "**********\n";
+  lista += "**********";
 }
 
 string pintarDatosEmpresa(empresa &e, const string &cod){
