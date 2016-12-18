@@ -20,12 +20,13 @@
 
 
 #include <stdio.h>
-//#include "mercado.h"
+#include "mercado.h"
+#include "empresa.h"
 #include "instante.h"
 #include <string>
 #include <iostream>
 #include <fstream>
-
+#include <cstring>
 
 using namespace std;
 
@@ -34,7 +35,7 @@ void registrarEmpresa(mercado &m, ifstream &file, ofstream &salida);
 void limpiarDatos(ifstream &file, string &hora, string &fecha, string &accion, int &ph, int &sh, int &pf, int &sf);
 void cotizaMercado(mercado &m, string &codigo, ofstream &salida);
 void eliminarEmpresa(mercado &m, string &codigo, ofstream &salida);
-void abrirSesion(mercado &m, string &codigo, ofstream &salida)
+void abrirSesion(mercado &m, string &codigo, ofstream &salida);
 void cerrarSesion(mercado &m, string &codigo, ofstream &salida);
 void anyadirCotizacion(mercado &m, ifstream &file, ofstream &salida);
 void listarEmpre(mercado &m, string &codigo, ofstream &salida);
@@ -43,7 +44,7 @@ void listarDetalles(mercado &m, ofstream &salida);
 
 int main(){
     mercado m;
-    crearMercado(m,"TERRA");
+    crearMercado("TERRA",m);
     ifstream file("entrada.txt");
     ofstream salida;
     salida.open("salida.txt");
@@ -130,7 +131,7 @@ void registrarEmpresa(mercado &m, ifstream &file, ofstream &salida){
   }else{
     salida << "-REGISTRO DESECHADO: ";
   }
-  salida << codigo<<";"<<nomEmpresa<<";"<<instante<<";"<<to_string(atof(accion.str()))<<"\n";
+  salida << codigo<<";"<<nomEmpresa<<";"<<instante<<";"<<to_string(atof(accion.c_str()))<<"\n";
 }
 
 /*
@@ -157,11 +158,12 @@ void limpiarDatos(ifstream &file, string &hora, string &fecha, string &accion, i
  * registrada
  */
 void cotizaMercado(mercado &m, string &codigo, ofstream &salida){
-  bool registrado=estaEnMercado(m,codigo);
+  empresa j;
+  bool registrado=estaEnMercado(m,codigo,j);
   
   salida << codigo;
   if(registrado){
-      salida << "-REGISTRADA\n"
+      salida << "-REGISTRADA\n";
   }
   else{
       salida << "-NO REGISTRADA\n";
@@ -174,8 +176,8 @@ void eliminarEmpresa(mercado &m, string &codigo, ofstream &salida){
   bool borrado=borrarEmpresa(m,codigo);
   
   salida << codigo;
-  if(registrado){
-      salida << "-BORRADA\n"
+  if(borrado){
+      salida << "-BORRADA\n";
   }
   else{
       salida << "-BORRADO DESCARTADO\n";
@@ -186,14 +188,15 @@ void eliminarEmpresa(mercado &m, string &codigo, ofstream &salida){
  * por la salida de su estado 
  */
 void abrirSesion(mercado &m, string &codigo, ofstream &salida){
-  int estado=abrirSesionEmpresa(m,codigo);
+  int estado;
+  abrirSesionEmpresa(m,codigo,estado);
   
   salida << codigo;
-  if(estado==0){
-      salida << "-SESION ABIERTA\n"
+  if(estado==-1){
+      salida << "-SESION ABIERTA\n";
   }
-  else if(estado==1){
-      salida << "-APERTURA DE SESION DESECHADA(NO REGISTRADA)\n"
+  else if(estado==0){
+      salida << "-APERTURA DE SESION DESECHADA(NO REGISTRADA)\n";
   }
   else{
       salida << "-APERTURA DE SESION DESECHADA(ESTA ABIERTA)\n";
@@ -205,14 +208,15 @@ void abrirSesion(mercado &m, string &codigo, ofstream &salida){
  * por la salida de su estado 
  */
 void cerrarSesion(mercado &m, string &codigo, ofstream &salida){
-  int estado=cerrarSesionEmpresa(m,codigo);
+  int estado;
+  cerrarSessionEmpresa(m,codigo,estado);
   
   salida << codigo;
-  if(estado==0){
-      salida << "-SESION CERRADA\n"
+  if(estado==-1){
+      salida << "-SESION CERRADA\n";
   }
-  else if(estado==1){
-      salida << "-CIERRE DE SESION DESECHADO(NO REGISTRADA)\n"
+  else if(estado==0){
+      salida << "-CIERRE DE SESION DESECHADO(NO REGISTRADA)\n";
   }
   else{
       salida << "-CIERRE DE SESION DESECHADO(ESTA CERRADA)\n";
@@ -237,20 +241,21 @@ void anyadirCotizacion(mercado &m, ifstream &file, ofstream &salida){
       atoi(hora.substr(ph+1, sh-ph-1).c_str()),
       atoi(hora.substr(sh+1).c_str()));
 
-  int estado = anyadirCotizacionEmpresa(m, codigo, inst, atof(accion.c_str()));
+  int estado;
+  anyadirCotizacionEmpresa(m, codigo, inst, atof(accion.c_str()),estado);
   string instante;
   generaCadena(inst, instante);
   salida << codigo;
-  if(estado==0){
+  if(estado==-1){
     salida << "-INSERCION: ";
   }
-  else if(estado==1){
+  else if(estado==0){
     salida << "-INSERCION DESECHADA(NO REGISTRADA): ";
   }
   else{
     salida << "-INSERCION DESECHADA(ERROR INSERCION): ";
   }
-  salida << codigo<<";"<<";"<<instante<<";"<<to_string(atof(accion.str()))<<"\n";
+  salida << codigo<<";"<<";"<<instante<<";"<<to_string(atof(accion.c_str()))<<"\n";
 }
 
 /*
@@ -259,9 +264,10 @@ void anyadirCotizacion(mercado &m, ifstream &file, ofstream &salida){
 void listarEmpre(mercado &m, string &codigo, ofstream &salida){
   string datos;
   listarEmpresa(m,codigo,datos);
- 
+  char* aux;
+  aux=(char *)datos.c_str();
   
-  if(datos no es vacio){
+  if(strlen(aux)>1){
       salida << "LISTANDO EMPRESA: \n"<<datos<<"\n";
   }
   else{

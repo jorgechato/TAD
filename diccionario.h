@@ -64,8 +64,6 @@ template <typename clave,typename valor> void siguiente(diccionario<clave,valor>
 /* Devuelve la clave y el valor del siguiente par a visitar de d y avanza el iterador, si no quedan claves por visitar devuelve error=true
  */
 
-//Operacion libera??
-
 template <typename clave,typename valor> struct diccionario{
 private:
         struct nodo{

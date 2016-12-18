@@ -72,7 +72,7 @@ void cerrarSessionEmpresa(mercado &m, const string &cod, int &error);
 //cod.
 //Si en el mercado m no existe un par (cod,e) (EmpresaInexistente),
 //Si en m existe un par (cod, e) pero sesiónAbierta(e) es Falso (SesiónYaCerrada)
-void anyadirCotizacionEmpresa(mercado &m, const string &cod, instante i, const double v, int error);
+void anyadirCotizacionEmpresa(mercado &m, const string &cod, instante i, const double v, int &error);
 //Valores: mercado, codigo, instante, double, error
 //ERROR: EmpresaInexistente CODIGO:0, ErrorIntroducirCotización CODIGO:1, Ningún error CODIGO: -1
 //Si en el mercado m existe un par (cod,e) devolverá un mercado igual al resultante de registrar
@@ -136,7 +136,7 @@ void listarDetallesTodas(mercado &m, string &lista);
 //menor a mayor código de identificación de las empresas, y separando la información de cada una
 //de ellas de la que le siga en el listado mediante una línea con la cadena “-----“, y
 //- finalizada con una línea con la cadena “**********”.
-string pintarDatosEmpresa(const empresa &e, const string &cod);
+string pintarDatosEmpresa(empresa &e, const string &cod);
 //Valores: empresa, codigo
 //Devuelve una cadena que contiene consecutivamente las siguientes cadenas:
 //- el código cod que identifica a la empresa en el mercado m, seguido de un salto de línea,
@@ -153,7 +153,7 @@ struct mercado{
   friend bool borrarEmpresa(mercado &m, const string &cod);
   friend void abrirSesionEmpresa(mercado &m, const string &cod, int &error);
   friend void cerrarSessionEmpresa(mercado &m, const string &cod, int &error);
-  friend void anyadirCotizacionEmpresa(mercado &m, const string &cod, instante i, const double v, int error);
+  friend void anyadirCotizacionEmpresa(mercado &m, const string &cod, instante i, const double v, int &error);
   friend void listarEmpresa(mercado &m, const string &cod, string &lista);
   friend void listarVariacionesTodas(mercado &m, string &lista);
   friend void listarDetallesTodas(mercado &m, string &lista);
@@ -162,6 +162,6 @@ struct mercado{
   string nombre;
   diccionario <string,empresa> d;
 
-  string pintarDatosEmpresa(const empresa &e, const string &cod);
+  string pintarDatosEmpresa(empresa &e, const string &cod);
 };
 #endif
