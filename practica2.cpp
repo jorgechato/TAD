@@ -3,10 +3,10 @@
  *
  *       Filename:  practica2.cpp
  *
- *    Description:  FALTA**g++ -std=c++11 practica1.cpp empresa.cc instante.cc calculos.cc -o main
+ *    Description:  g++ -std=c++11 practica2.cpp mercado.cc empresa.cc instante.cc calculos.cc -o main
  *
  *        Version:  1.0
- *        Created:  11/03/2016 04:11:30 PM
+ *        Created:  12/19/2016 02:11:30 PM
  *       Compiler:  g++
  *
  *         Author:  Fidel Reviriego Navarro (716678)

@@ -3,10 +3,8 @@
  *
  *       Filename:  pila.h
  *
- *    Description:  //FALTAg++ -std=c++11 practica1.cpp empresa.cc instante.cc calculos.cc -o main
- *
  *        Version:  1.0
- *        Created:  //FALTA11/03/2016 04:11:30 PM
+ *        Created:  12/5/2016 04:11:30 PM
  *       Compiler:  g++
  *
  *         Author:  Fidel Reviriego Navarro (716678)

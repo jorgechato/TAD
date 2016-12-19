@@ -3,8 +3,6 @@
  *
  *       Filename:  historico.h
  *
- *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc calculos.cc -o main
- *
  *        Version:  1.0
  *        Created:  11/03/2016 04:11:30 PM
  *       Compiler:  g++
@@ -19,7 +17,6 @@
 #ifndef HISTORICO_H
 #define HISTORICO_H
 #include <string>
-//#include "calculos.h"
 using namespace std;
 template <typename orden,typename valor> struct historico;
 /* Los valores del TAD representan conjuntos de pares (orden,valor), en los que un par solo
@@ -68,7 +65,7 @@ template <typename orden,typename valor> void listar(historico<orden,valor> &h,s
  */
 template <typename orden,typename valor> void iniciarIterador(historico<orden,valor> &h);
 /* Inicializa el iterador para recorrer los pares del histórico h, de forma que el siguiente
- * par a visitar sea el primero (situación de no haber visitado ningún par).}
+ * par a visitar sea el primero (situación de no haber visitado ningún par).
  */
 template <typename orden,typename valor> bool existeSiguiente(const historico<orden,valor> &h);
 /* Devuelve verdad si y solo si queda algún par por visitar con el iterador del histórico h.

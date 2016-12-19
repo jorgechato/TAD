@@ -3,8 +3,6 @@
  *
  *       Filename:  empresa.h
  *
- *    Description:  g++ -std=c++11 practica1.cpp empresa.cc instante.cc calculos.cc -o main
- *
  *        Version:  1.0
  *        Created:  11/03/2016 04:11:30 PM
  *       Compiler:  g++

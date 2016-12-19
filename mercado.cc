@@ -1,9 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  mercado.cpp
- *
- *    Description:  g++ -std=c++11 practica2.cpp mercado.cpp empresa.cc instante.cc calculos.cc -o main
+ *       Filename:  mercado.cc
  *
  *        Version:  1.0
  *        Created:  12/17/2016 11:06:28 AM

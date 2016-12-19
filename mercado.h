@@ -3,8 +3,6 @@
  *
  *       Filename:  mercado.h
  *
- *    Description:  g++ -std=c++11 practica2.cpp mercado.cpp empresa.cc instante.cc calculos.cc -o main
- *
  *        Version:  1.0
  *        Created:  12/15/2016 05:35:08 PM
  *       Compiler:  g++
