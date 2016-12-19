@@ -82,7 +82,7 @@ void cerrarSessionEmpresa(mercado &m, const string &cod, int &error){
 void anyadirCotizacionEmpresa(mercado &m, const string &cod, instante i, const double v, int &error){
   empresa e;
   if(estaEnMercado(m, cod, e)){
-    error = introducir(e, i, v) ? 1 : -1;
+    error = introducir(e, i, v) ? -1 : 1;
     borrarEmpresa(m, cod);
     anyadir(m.d, cod, e);
   }else
