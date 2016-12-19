@@ -30,14 +30,14 @@ void crearMercado(string nombre, mercado &m){
 
 bool anyadirNuevaEmpresa(mercado &m, const string &cod, const string &idEmp, instante &i, const double v){
   empresa valor;
-  bool encontrado = obtenerValor(m.d, cod, valor);
+  bool anyadido = false;
 
-  if(!encontrado){
+  if(!obtenerValor(m.d, cod, valor)){
     empresa e;
     crear(idEmp, i, v, e);
-    encontrado = anyadir(m.d, cod, e);
+    anyadido = anyadir(m.d, cod, e);
   }
-  return encontrado;
+  return anyadido;
 }
 
 bool estaEnMercado(mercado &m, const string &cod, empresa &e){
@@ -130,11 +130,11 @@ void listarVariacionesTodas(mercado &m, string &lista){
           generaCadena(iMayor, fechaMayor);
 
           lista += "\nULTIMA: " + fecha + ";" + to_string(ultimovalor) + "\n" +
-            "VARIACION ULTIMA-CIERRE: " + to_string(ultimovalor) + "-" +
-                to_string(valorCotizacionCierre(e)) + "\n" +
+            "VARIACION ULTIMA-CIERRE: " + to_string(ultimovalor -
+                valorCotizacionCierre(e)) + "\n" +
             "MAYOR: " + fechaMayor + ";" + to_string(mayorvalor) + "\n" +
-            "VARIACION MAYOR-CIERRE: " + to_string(mayorvalor) + "-" +
-                to_string(valorCotizacionCierre(e));
+            "VARIACION MAYOR-CIERRE: " + to_string(mayorvalor -
+                valorCotizacionCierre(e));
         }
         lista += "\n-----\n";
       }
